@@ -25,7 +25,9 @@ public class ShootBullet : MonoBehaviour
             {
                 float vol = Random.Range(5, 10);
                 m_source.PlayOneShot(m_shootSound, vol);
-                GameObject shootThis = Instantiate(m_projectile, transform.position, transform.rotation);
+
+                Vector3 pos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+                GameObject shootThis = Instantiate(m_projectile, pos, transform.rotation);
                 Rigidbody rb = shootThis.GetComponent<Rigidbody>();
                 rb.AddRelativeForce(new Vector3(0, 0, 2000));
 
@@ -41,14 +43,14 @@ public class ShootBullet : MonoBehaviour
         {
             if (isTurn)
             {
-                transform.Rotate((float)-0.1, 0, 0);
+                transform.parent.RotateAround(transform.parent.parent.position, Vector3.left, (float)0.1);
             }
         }
         else if (Input.GetKey(KeyCode.DownArrow))
         {
             if (isTurn)
             {
-                transform.Rotate((float)0.1, 0, 0);
+                transform.parent.RotateAround(transform.parent.parent.position, Vector3.right, (float)0.1);
             }
         }
     }
