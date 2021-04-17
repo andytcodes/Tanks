@@ -39,12 +39,17 @@ public class ShootBullet : MonoBehaviour
 
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            //angle the gun up
+            if (isTurn)
+            {
+                transform.Rotate((float)-0.1, 0, 0);
+            }
         }
         else if (Input.GetKey(KeyCode.DownArrow))
         {
-            //angle the gun down
+            if (isTurn)
+            {
+                transform.Rotate((float)0.1, 0, 0);
+            }
         }
-
     }
 }
