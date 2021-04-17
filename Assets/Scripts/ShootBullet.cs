@@ -27,13 +27,17 @@ public class ShootBullet : MonoBehaviour
                 float vol = Random.Range(5, 10);
                 m_source.PlayOneShot(m_shootSound, vol);
 
-                Vector3 pos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+                int scale = leftPos ? 1 : -1;
+                Vector3 pos = new Vector3(transform.position.x+scale, transform.position.y, transform.position.z);
                 GameObject shootThis = Instantiate(m_projectile, pos, transform.rotation);
                 Rigidbody rb = shootThis.GetComponent<Rigidbody>();
 
-                float force = leftPos ? 2000 : -2000;
+                float force = leftPos ? 1000 : -1000;
 
-                rb.AddRelativeForce(new Vector3(force, 0, 0));
+                rb.AddRelativeForce(new Vector3(0, 0, force));
+                rb.velocity = Vector3.zero;
+                rb.angularDrag = 0;
+                rb.angularVelocity = Vector3.zero;
 
                 isTurn = false;
             }
@@ -47,7 +51,7 @@ public class ShootBullet : MonoBehaviour
         {
             if (isTurn)
             {
-                Vector3 axis = new Vector3((leftPos ? -1 : 1), 0, 0);
+                Vector3 axis = new Vector3(0, 0, (leftPos ? 1 : -1));
                 transform.parent.RotateAround(transform.parent.parent.position, axis, (float)0.1);
             }
         }
@@ -55,7 +59,7 @@ public class ShootBullet : MonoBehaviour
         {
             if (isTurn)
             {
-                Vector3 axis = new Vector3((leftPos ? 1 : -1), 0, 0);
+                Vector3 axis = new Vector3(0, 0, (leftPos ? -1 : 1));
                 transform.parent.RotateAround(transform.parent.parent.position, axis, (float)0.1);
             }
         }
