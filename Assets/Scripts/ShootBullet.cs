@@ -8,7 +8,8 @@ public class ShootBullet : MonoBehaviour
     public AudioClip m_shootSound;
 
     private AudioSource m_source;
-    //once the shot hits the tank, switch the roles around
+
+    public bool isTurn;
 
     void Start()
     {
@@ -18,25 +19,32 @@ public class ShootBullet : MonoBehaviour
     void Update()
     {
 
-        if(this.tag == "Player")
+        if (Input.GetButtonDown("Fire1"))
         {
-            if (Input.GetButtonDown("Fire1"))
+            if (isTurn)
             {
                 float vol = Random.Range(5, 10);
                 m_source.PlayOneShot(m_shootSound, vol);
                 GameObject shootThis = Instantiate(m_projectile, transform.position, transform.rotation);
                 Rigidbody rb = shootThis.GetComponent<Rigidbody>();
                 rb.AddRelativeForce(new Vector3(0, 0, 2000));
+
+                isTurn = false;
             }
-            if (Input.GetKey(KeyCode.UpArrow))
+            else
             {
-                //angle the gun up
-            }
-            else if (Input.GetKey(KeyCode.DownArrow))
-            {
-                //angle the gun down
+                isTurn = true;
             }
         }
-        //else Enemy and they don't have controls
+
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            //angle the gun up
+        }
+        else if (Input.GetKey(KeyCode.DownArrow))
+        {
+            //angle the gun down
+        }
+
     }
 }
